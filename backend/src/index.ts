@@ -1,7 +1,11 @@
+import 'reflect-metadata';
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { DataSource } from "typeorm";
+import { urlRouter } from './routers/urlRouter';
+import { Url } from './entities/Url';
+import { Click } from './entities/Click';
 
 dotenv.config();
 
@@ -14,12 +18,14 @@ export const AppDataSource = new DataSource({
     database: process.env.DATABASE_NAME,
     synchronize: true,
     logging: false,
-    // entities: [Url, Click],
+    entities: [Url, Click],
 });
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use('/', urlRouter);
 
 AppDataSource.initialize()
   .then(() => {
