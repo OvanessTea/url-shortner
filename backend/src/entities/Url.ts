@@ -12,7 +12,7 @@ export class Url {
   @Column({ unique: true })
   shortUrl!: string;
 
-  @Column({ nullable: true, unique: true })
+  @Column({ nullable: true, unique: true, length: 20 })
   alias?: string;
 
   @Column({ nullable: true, type: 'timestamp' })
