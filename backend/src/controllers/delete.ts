@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import { AppDataSource } from '..';
-import { Url } from '../entities/Url';
+import { getRepositories } from '../helpers/getRepos';
 
 export const deleteController = async (req: Request, res: Response) => {
     try {
         const { shortUrl } = req.params;
-        const urlRepo = AppDataSource.getRepository(Url);
+        const { urlRepo } = getRepositories();
         const url = await urlRepo.findOne({ where: { shortUrl } });
         if (!url) {
             return res.status(404).json({ message: 'URL not found' });

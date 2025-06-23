@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import { CreateUrlDto } from '../dtos/create-url.dto';
-import { AppDataSource } from '..';
-import { Url } from '../entities/Url';
 import { nanoid } from 'nanoid';
 import { validateDto } from '../helpers/validate';
+import { getRepositories } from '../helpers/getRepos';
 
 export const shortenController = async (req: Request, res: Response) => {
     try {
@@ -14,7 +13,7 @@ export const shortenController = async (req: Request, res: Response) => {
 
         await validateDto(dto, res);
 
-        const urlRepo = AppDataSource.getRepository(Url);
+        const { urlRepo } = getRepositories();
         const { originalUrl, expiresAt, alias } = dto;
 
         if (alias) {

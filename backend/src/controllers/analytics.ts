@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
-import { AppDataSource } from '..';
-import { Url } from '../entities/Url';
-import { Click } from '../entities/Click';
+import { getRepositories } from '../helpers/getRepos';
 
 export const analyticsController = async (req: Request, res: Response) => {
     try {
         const { shortUrl } = req.params;
-        const urlRepo = AppDataSource.getRepository(Url);
-        const clickRepo = AppDataSource.getRepository(Click);
+        const { urlRepo, clickRepo } = getRepositories();
         const url = await urlRepo.findOne({ where: { shortUrl } });
         if (!url) {
             return res.status(404).json({ message: 'URL not found' });
