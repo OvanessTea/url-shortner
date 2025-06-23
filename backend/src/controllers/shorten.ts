@@ -13,6 +13,10 @@ export const shortenController = async (req: Request, res: Response, next: NextF
         dto.expiresAt = req.body.expiresAt;
         dto.alias = req.body.alias;
 
+        if (dto.alias && dto.alias.length > 20) {
+            throw new BadRequestError('Alias must be at most 20 characters long');
+        }
+
         await validateDto(dto, res);
 
         const { urlRepo } = getRepositories();
@@ -21,7 +25,7 @@ export const shortenController = async (req: Request, res: Response, next: NextF
         if (alias) {
             const exists = await urlRepo.findOne({ where: { alias } });
             if (exists) {
-                throw new ConflictError();
+                throw new ConflictError('Alias already exists');
             }
         }
 
@@ -45,10 +49,10 @@ export const shortenController = async (req: Request, res: Response, next: NextF
         })
     } catch (error) {
         if (error instanceof BadRequestError) {
-            return next(new BadRequestError('Invalid URL'));
+            return next(error);
         }
         if (error instanceof ConflictError) {
-            return next(new ConflictError('Alias already exists'));
+            return next(error);
         }
         next(error);
     }

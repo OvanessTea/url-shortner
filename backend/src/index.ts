@@ -5,8 +5,10 @@ import dotenv from "dotenv";
 import { urlRouter } from './routers/urlRouter';
 import { errorHandler } from './helpers/errorHandler';
 import { AppDataSource } from './db';
+import path from 'path';
 
-dotenv.config();
+const { parsed } = dotenv.config({path: path.resolve(__dirname, '../.env')});
+console.log(parsed);
 
 const app = express();
 app.use(cors());
@@ -18,8 +20,9 @@ app.use(errorHandler);
 
 AppDataSource.initialize()
   .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log(`Express server started on http://localhost:${process.env.PORT}`);
+    const port = process.env.PORT || 3001;
+    app.listen(port, () => {
+      console.log(`Express server started on http://localhost:${port}`);
     });
   })
   .catch((error) => console.error('TypeORM connection error:', error)); 
