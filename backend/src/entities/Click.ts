@@ -12,7 +12,7 @@ export class Click {
   @CreateDateColumn()
   clickedAt!: Date;
 
-  @ManyToOne(() => Url, (url: Url) => url.clicks)
+  @ManyToOne(() => Url, (url: Url) => url.clicks, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'urlId' })
   url!: Url;
 

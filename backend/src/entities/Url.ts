@@ -21,6 +21,6 @@ export class Url {
   @CreateDateColumn()
   createdAt!: Date;
 
-  @OneToMany(() => Click, (click: Click) => click.url)
+  @OneToMany(() => Click, (click: Click) => click.url, { onDelete: 'CASCADE' })
   clicks!: Click[];
 } 
