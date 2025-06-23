@@ -6,6 +6,7 @@ import { DataSource } from "typeorm";
 import { urlRouter } from './routers/urlRouter';
 import { Url } from './entities/Url';
 import { Click } from './entities/Click';
+import { errorHandler } from './helpers/errorHandler';
 
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', urlRouter);
+
+app.use(errorHandler);
 
 AppDataSource.initialize()
   .then(() => {

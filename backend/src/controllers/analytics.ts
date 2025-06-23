@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepositories } from '../helpers/getRepos';
 import { getUrl } from '../helpers/getUrl';
+import NotFoundError from '../errors/not-found-error';
+import BadRequestError from '../errors/bad-request-error';
 
 export const analyticsController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,6 +23,12 @@ export const analyticsController = async (req: Request, res: Response, next: Nex
             recentIps 
         });
     } catch (error) {
+        if (error instanceof NotFoundError) {
+            return next(new NotFoundError('URL not found'));
+        }
+        if (error instanceof BadRequestError) {
+            return next(new BadRequestError('Invalid URL'));
+        }
         next(error);
     }
 }

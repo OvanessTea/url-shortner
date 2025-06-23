@@ -3,6 +3,8 @@ import { CreateUrlDto } from '../dtos/create-url.dto';
 import { nanoid } from 'nanoid';
 import { validateDto } from '../helpers/validate';
 import { getRepositories } from '../helpers/getRepos';
+import BadRequestError from '../errors/bad-request-error';
+import ConflictError from '../errors/conflict-error';
 
 export const shortenController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -19,7 +21,7 @@ export const shortenController = async (req: Request, res: Response, next: NextF
         if (alias) {
             const exists = await urlRepo.findOne({ where: { alias } });
             if (exists) {
-                return res.status(400).json({ error: 'Alias already exists' });
+                throw new ConflictError();
             }
         }
 
@@ -42,6 +44,12 @@ export const shortenController = async (req: Request, res: Response, next: NextF
             clickCount: 0,
         })
     } catch (error) {
+        if (error instanceof BadRequestError) {
+            return next(new BadRequestError('Invalid URL'));
+        }
+        if (error instanceof ConflictError) {
+            return next(new ConflictError('Alias already exists'));
+        }
         next(error);
     }
 }

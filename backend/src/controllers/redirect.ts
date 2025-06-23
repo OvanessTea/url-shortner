@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepositories } from '../helpers/getRepos';
 import { getUrl } from '../helpers/getUrl';
+import NotFoundError from '../errors/not-found-error';
 
 export const redirectController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -10,7 +11,7 @@ export const redirectController = async (req: Request, res: Response, next: Next
 
         if (url.expiresAt && url.expiresAt < new Date()) {
             await urlRepo.delete(url.id);
-            return res.status(404).json({ error: 'URL expired' });
+            throw new NotFoundError('URL expired');
         }
 
         await clickRepo.save(clickRepo.create({
@@ -20,6 +21,9 @@ export const redirectController = async (req: Request, res: Response, next: Next
 
         res.redirect(url.originalUrl);
     } catch (error) {
+        if (error instanceof NotFoundError) {
+            return next(new NotFoundError(error.message || 'URL not found'));
+        }
         next(error);
     }
 };
