@@ -1,14 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { getRepositories } from '../helpers/getRepos';
+import { getUrl } from '../helpers/getUrl';
 
-export const redirectController = async (req: Request, res: Response) => {
+export const redirectController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { shortUrl } = req.params;
+        const url = await getUrl(shortUrl);
         const { urlRepo, clickRepo } = getRepositories();
-        const url = await urlRepo.findOne({ where: { shortUrl } });
-        if (!url) {
-            return res.status(404).json({ error: 'URL not found' });
-        }
 
         if (url.expiresAt && url.expiresAt < new Date()) {
             await urlRepo.delete(url.id);
@@ -22,6 +20,6 @@ export const redirectController = async (req: Request, res: Response) => {
 
         res.redirect(url.originalUrl);
     } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+        next(error);
     }
 };

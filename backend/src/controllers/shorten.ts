@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { CreateUrlDto } from '../dtos/create-url.dto';
 import { nanoid } from 'nanoid';
 import { validateDto } from '../helpers/validate';
 import { getRepositories } from '../helpers/getRepos';
 
-export const shortenController = async (req: Request, res: Response) => {
+export const shortenController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const dto = new CreateUrlDto();
         dto.originalUrl = req.body.originalUrl;
@@ -42,6 +42,6 @@ export const shortenController = async (req: Request, res: Response) => {
             clickCount: 0,
         })
     } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+        next(error);
     }
 }

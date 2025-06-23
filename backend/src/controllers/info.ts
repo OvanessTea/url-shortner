@@ -1,14 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { getRepositories } from '../helpers/getRepos';
+import { getUrl } from '../helpers/getUrl';
 
-export const infoController = async (req: Request, res: Response) => {
+export const infoController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { shortUrl } = req.params;
-        const { urlRepo, clickRepo } = getRepositories();
-        const url = await urlRepo.findOne({ where: { shortUrl } });
-        if (!url) {
-            return res.status(404).json({ message: 'URL not found' });
-        }
+        const url = await getUrl(shortUrl);
+        const { clickRepo } = getRepositories();
+
         const clickCount = await clickRepo.count({ where: { urlId: url.id } });
         res.json({
             originalUrl: url.originalUrl,
@@ -19,6 +18,6 @@ export const infoController = async (req: Request, res: Response) => {
             expiresAt: url.expiresAt,
         });
     } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+        next(error);
     }
 }
