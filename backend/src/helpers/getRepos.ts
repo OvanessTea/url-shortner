@@ -1,4 +1,4 @@
-import { AppDataSource } from '..';
+import { AppDataSource } from '../db';
 import { Url } from '../entities/Url';
 import { Click } from '../entities/Click';
 

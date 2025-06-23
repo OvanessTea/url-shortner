@@ -2,25 +2,11 @@ import 'reflect-metadata';
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { DataSource } from "typeorm";
 import { urlRouter } from './routers/urlRouter';
-import { Url } from './entities/Url';
-import { Click } from './entities/Click';
 import { errorHandler } from './helpers/errorHandler';
+import { AppDataSource } from './db';
 
 dotenv.config();
-
-export const AppDataSource = new DataSource({
-    type: "postgres",
-    host: process.env.DATABASE_HOST,
-    port: parseInt(process.env.DATABASE_PORT as string),
-    username: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    synchronize: true,
-    logging: false,
-    entities: [Url, Click],
-});
 
 const app = express();
 app.use(cors());
