@@ -30,7 +30,10 @@ code {
     &:hover {
         background-color: #0056b3;
     }
-
+    &:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
     &_danger {
         background-color: #dc3545;
         &:hover {
