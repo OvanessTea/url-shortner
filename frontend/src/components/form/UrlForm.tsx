@@ -1,21 +1,22 @@
 import { useState } from "react";
-import { Url } from "../types/url.type";
-import { createShortUrl } from "../lib/shorten";
+import { Url } from "../../types/url.type";
+import { createShortUrl } from "../../lib/shorten";
 import styles from './UrlForm.module.scss';
 
 interface UrlFormProps {
   setError: (error: string) => void;
   setSuccess: (success: string) => void;
+  urls: Url[];
+  setUrls: (url: Url) => void;
 }
 
-export const UrlForm = ({ setError, setSuccess }: UrlFormProps) => {
+export const UrlForm = ({ setError, setSuccess, urls, setUrls }: UrlFormProps) => {
   const [form, setForm] = useState({
     originalUrl: '',
     alias: '',
     expiresAt: '',
   });
   const [loading, setLoading] = useState(false);
-  const [urls, setUrls] = useState<Url[]>([]);
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ export const UrlForm = ({ setError, setSuccess }: UrlFormProps) => {
         alias: form.alias,
         expiresAt: form.expiresAt,
       });
-      setUrls([...urls, data]);
+      setUrls(data);
       setForm({ originalUrl: '', alias: '', expiresAt: '' });
       setSuccess('Short URL created successfully');
     } catch (error: any) {
@@ -38,8 +39,8 @@ export const UrlForm = ({ setError, setSuccess }: UrlFormProps) => {
   }
 
   return (
-    <div className={styles.url_form}>
-      <h2>Create URL</h2>
+    <div className={styles.card}>
+      <h2>🔗 Create URL</h2>
       <form onSubmit={submit}>
         <div className={styles.form_group}>
           <label htmlFor="originalUrl">Original URL *</label>
@@ -77,7 +78,7 @@ export const UrlForm = ({ setError, setSuccess }: UrlFormProps) => {
 
         <button
           type="submit"
-          className={styles.btn}
+          className={styles.submit_btn}
           disabled={
             loading ||
             !form.originalUrl ||
