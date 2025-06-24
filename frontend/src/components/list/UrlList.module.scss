@@ -62,41 +62,21 @@
 
                     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
-
-                    &:hover {
-                        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-                        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.18);
-                    }
                 }
 
                 .btn_info {
                     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
                     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
-
-                    &:hover {
-                        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.18);
-                    }
                 }
 
                 .btn_secondary {
                     background: linear-gradient(135deg, #f59e42 0%, #fbbf24 100%);
                     box-shadow: 0 2px 8px rgba(251, 191, 36, 0.08);
-
-                    &:hover {
-                        background: linear-gradient(135deg, #fbbf24 0%, #f59e42 100%);
-                        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.18);
-                    }
                 }
 
                 .btn_danger {
                     background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
                     box-shadow: 0 2px 8px rgba(239, 68, 68, 0.08);
-
-                    &:hover {
-                        background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
-                        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.18);
-                    }
                 }
             }
         }
