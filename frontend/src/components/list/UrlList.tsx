@@ -81,7 +81,7 @@ const UrlList = ({ urls, setError, setSuccess, onUrlRemove }: AppProps) => {
             <ul className={styles.url_list}>
                 {urls.map((url) => (
                     <li key={url.shortUrl} className={styles.url_item}>
-                        <h3>Short URL: {getFullShortUrl(url.shortUrl)}</h3>
+                        <h3>Short URL: <a href={getFullShortUrl(url.shortUrl)} target="_blank" rel="noopener noreferrer">{getFullShortUrl(url.shortUrl)}</a></h3>
                         <p><strong>Original:</strong> {url.originalUrl}</p>
                         {url.expiresAt && (
                             <p><strong>Expires:</strong> {new Date(url.expiresAt).toLocaleString()}</p>
