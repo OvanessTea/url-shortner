@@ -1,0 +1,39 @@
+@import '../../global.scss';
+
+.analytics {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.06);
+    padding: 20px 20px 16px 20px;
+    border: 1px solid #e5e7eb;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    max-width: 500px;
+    width: 100%;
+
+    h4 {
+        margin: 0 0 12px 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #4f46e5;
+    }
+
+    strong {
+        color: #1e293b;
+        font-weight: 600;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 20px;
+        list-style: disc;
+        color: #374151;
+        font-size: 0.98rem;
+
+        li {
+            font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+            color: #334155;
+            margin-bottom: 6px;
+            word-break: break-all;
+        }
+    }
+}
