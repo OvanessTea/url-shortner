@@ -7,8 +7,7 @@ import { errorHandler } from './helpers/errorHandler';
 import { AppDataSource } from './db';
 import path from 'path';
 
-const { parsed } = dotenv.config({path: path.resolve(__dirname, '../.env')});
-console.log(parsed);
+dotenv.config({path: path.resolve(__dirname, '../.env')});
 
 const app = express();
 app.use(cors());
