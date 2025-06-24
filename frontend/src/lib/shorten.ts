@@ -1,5 +1,4 @@
-import { shortenUrl } from "../api/shorten";
-import { Url } from "../types/url.type";
+import { deleteUrlApi, shortenUrlApi } from "../api/shorten";
 
 export const createShortUrl = async (payload: { originalUrl: string, alias?: string, expiresAt?: string }) => {
     const data = {
@@ -7,6 +6,9 @@ export const createShortUrl = async (payload: { originalUrl: string, alias?: str
         ...(payload.alias && { alias: payload.alias }),
         ...(payload.expiresAt && { expiresAt: payload.expiresAt }),
     }
-    const response = await shortenUrl(data);
-    return response.data as Url;
+    return await shortenUrlApi(data);
+}
+
+export const deleteShortUrl = async (id: string) => {
+    return await deleteUrlApi(id);
 }
