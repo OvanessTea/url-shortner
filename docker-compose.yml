@@ -16,6 +16,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
     ports:
       - "3001:3001"
     environment:
@@ -26,6 +28,7 @@ services:
       DATABASE_PASSWORD: password
       JWT_SECRET: your-secret-key
       NODE_ENV: development
+      PORT: 3001
     depends_on:
       - postgres
     networks:
@@ -35,8 +38,12 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:3001
     ports:
       - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
     depends_on:
       - backend
     networks:
